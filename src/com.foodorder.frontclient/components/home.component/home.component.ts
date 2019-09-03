@@ -9,19 +9,49 @@ import {Food} from '../../models/food.model';
 })
 export class HomeComponent implements OnInit {
 
-  foodName: string;
-  foods: Food[];
-  food: Food;
+  private size = 5;
+  private page = 0;
+  private sort = '';
+  private sortByArray  = [
+    {name: 'id'},
+    {name: 'name'},
+    {name: 'price'}
+  ];
+  private foods: Array<Food>;
+  private pages: Array<number>;
+  private foodName: string;
+  private food: Food;
 
   constructor(private foodService: FoodService) { }
-
-  ngOnInit() {
+  setPage(i, event: any) {
+    event.preventDefault();
+    this.page = i;
+    this.getAllFood();
   }
 
-  public getAllFood(): void {
-    this.foodService.getAllFood()
+  setSize(i, event: any) {
+    event.preventDefault();
+    this.size = i;
+    this.page = 0;
+    this.getAllFood();
+  }
+
+  setSort(event: any) {
+    event.preventDefault();
+    this.sort = event.target.value;
+    this.page = 0;
+    this.getAllFood();
+  }
+
+  ngOnInit() {
+    this.getAllFood();
+  }
+
+  public getAllFood() {
+    this.foodService.getAllFood(this.page, this.size, this.sort)
       .subscribe(data => {
-        this.foods = data;
+        this.foods = data['content'];
+        this.pages = new Array(data['totalPages']);
       }, error => {
         console.log(error);
       });

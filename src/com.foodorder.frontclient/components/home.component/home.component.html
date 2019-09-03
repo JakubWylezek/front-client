@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <h4 class="card-title">Foods</h4>
+        </div>
+        <div class="col"></div>
+        <div class="col">
+            <label>Sort by:
+              <select (change)="setSort($event)">
+                <option *ngFor="let v of sortByArray" [value]="v.name">{{v.name}}</option>
+              </select>
+            </label>
+        </div>
+      </div>
+      <table class="table table-stripped">
+        <tbody>
+          <tr *ngFor="let food of foods">
+            <td>{{food.name}}</td>
+            <td>{{food.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <div class="row">
+        <div class="col">
+          <ul class="nav nav-pills">
+            <li class="nav-item" *ngFor="let p of pages; let i = index">
+              <a href="#" class="nav-link" (click)="setPage(i,$event)"
+                 [ngClass]="{'active' : i == page}">{{i}}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col">
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link" (click)="setSize(5, $event)"
+                                    [ngClass]="{'active' : size == 5}">5</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" (click)="setSize(10, $event)"
+                                    [ngClass]="{'active' : size == 10}">10</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" (click)="setSize(15, $event)"
+                                    [ngClass]="{'active' : size == 15}">15</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
